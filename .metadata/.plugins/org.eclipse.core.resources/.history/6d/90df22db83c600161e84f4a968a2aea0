@@ -13,11 +13,11 @@ import java.sql.Statement;
 public class MySqlQuery {
 	//private String TABLE = "テーブルの名前";
 	private Connection con = null;
-
+	
 	/**
 	 * データベースサーバに接続を行います。
 	 */
-	public MySqlQuery() throws  SQLException {
+	public MySqlQuery() { /*throws  SQLException {
 		try {
 			con = MySqlConnection.getConnection();
 		} catch (SQLException e) {
@@ -31,10 +31,11 @@ public class MySqlQuery {
 			}
 			throw new SQLException();
 		}
+		*/
 	}
 
 	/**
-	 *
+	 * 
 	 * @throws SQLException
 	 */
 	private void close() throws SQLException{
@@ -96,12 +97,7 @@ public class MySqlQuery {
 	 * @param areaNum エリア番号
 	 * @return 混雑状況データ
 	 */
-	public int dbNewData (int areaNum ) throws SQLException {
-		String num = Integer.toString(areaNum);
-		String sql = "select MAX(Time), AreaCode, Congestion "
-				+ "from onedaytable where AreaCode = " + num
-				+ "group by areaCode;";
-		ResultSet result = myExecuteQuery(sql);
+	public int dbNewData (int areaNum ) {
 		return 77;
 	}
 
@@ -153,7 +149,7 @@ public class MySqlQuery {
 		return;
 	}
 
-
+	
 	public void finalize() {
 		try {
 			con.close();

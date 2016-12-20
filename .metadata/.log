@@ -287,3 +287,25 @@ Contains: 'RemoteSystemsTempFiles' のプロジェクト記述ファイル (.pro
 !MESSAGE 保管操作の警告。
 !SUBENTRY 1 org.eclipse.core.resources 2 234 2016-12-20 09:22:24.489
 !MESSAGE 'RemoteSystemsTempFiles' のプロジェクト記述ファイル (.project) がありませんでした。 このファイルには、プロジェクトに関する重要な情報が含まれています。 新しいプロジェクト記述ファイルが作成されましたが、プロジェクトに関する情報の一部が破損している可能性があります。
+
+!ENTRY org.eclipse.core.resources 2 10035 2016-12-20 10:10:33.468
+!MESSAGE ワークスペースは、このセッションで変更が保存されずに終了します。
+!SESSION 2016-12-20 14:49:54.207 -----------------------------------------------
+eclipse.buildId=4.6.1.M20160907-1200
+java.version=1.8.0_112
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=ja_JP
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.core.resources 2 10035 2016-12-20 14:50:03.873
+!MESSAGE ワークスペースは以前のセッションで変更が保存されずに終了しました； 変更を回復するためにワークスペースをリフレッシュ中です。
+
+!ENTRY org.eclipse.jface.text 2 0 2016-12-20 16:08:42.542
+!MESSAGE 重複テンプレート ID: 'org.eclipse.wst.xslt.templates.xpath.number'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-12-20 16:08:42.548
+!MESSAGE 重複テンプレート ID: 'org.eclipse.wst.xslt.templates.xpath.round'
+
+!ENTRY org.eclipse.jface.text 2 0 2016-12-20 16:08:42.559
+!MESSAGE 重複テンプレート ID: 'zigen.plugin.db.template.sql.case'
