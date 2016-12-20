@@ -5,9 +5,9 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class MySqlConnection {
-	
-	public static Connection getConnection () throws SQLException{
-		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sample", "root", "root00");		
+
+	protected static Connection getConnection () throws SQLException{
+		Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/sample", "root", "root00");
 		return con;
 	}
 }

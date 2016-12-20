@@ -5,9 +5,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * このクラスは端末でデータを扱うためのクラスです。
+ * @author nikami
+ * ver.1.0
+ */
 public class MySqlQuery {
 	//private String TABLE = "テーブルの名前";
 	private Connection con = null;
+	
+	/**
+	 * データベースサーバに接続を行います。
+	 */
 	public MySqlQuery() { /*throws  SQLException {
 		try {
 			con = MySqlConnection.getConnection();
@@ -25,28 +34,51 @@ public class MySqlQuery {
 		*/
 	}
 
-	public void close() throws SQLException{
+	/**
+	 * 
+	 * @throws SQLException
+	 */
+	private void close() throws SQLException{
 		con.close();
 	}
 
-	//sql文を入力することで，データの問い合わせを行う．
-	public ResultSet myExecuteQuery (String sql) throws SQLException {
+	/**
+	 * データベースサーバにsql文を送信するためのメソッドです。
+	 * @param sql
+	 * データベースサーバに送信するsql文
+	 * @return
+	 * データベースサーバから返信された結果
+	 * @throws SQLException
+	 * このメソッドはSQLExceptionが発生する可能性があります。
+	 */
+	private ResultSet myExecuteQuery (String sql) throws SQLException {
 		Statement stm = con.createStatement();
 		ResultSet rs = stm.executeQuery(sql);
 		return rs;
 	}
 
 
-	//sql文を入力することで，レコードの挿入・更新を行う．
-	public int  myExecuteUpdate(String sql) throws SQLException {
+	/**
+	 * データベースサーバにsql文を送信し、更新を行うためのメソッドです。
+	 * @param sql
+	 * sql文
+	 * @return
+	 * 更新されたデータ数
+	 * @throws SQLException
+	 * 例外が発生する可能性があります
+	 */
+	private int  myExecuteUpdate(String sql) throws SQLException {
 		Statement stm = con.createStatement();
 		int num = stm.executeUpdate(sql);
 		return num;
 	}
 
 
-	//カメラコードと込み具合を指定したテーブルに挿入する
-	//areaNum = エリア番号、data=曜日
+	/**
+	 * 混雑状況データを送信するメソッドです。
+	 * @param areaNum エリア番号
+	 * @param data 日付
+	 */
 	public void insertNewData(int areaNum, int data ) {
 	/*
 	throws SQLException {
@@ -59,17 +91,34 @@ public class MySqlQuery {
 	}
 
 
-	//areaNum = エリア番号
+	/**
+	 * 最新の混雑状況データを取得するメソッドです。<br>
+	 * 指定されたエリア番号の混雑状況データを返却します。
+	 * @param areaNum エリア番号
+	 * @return 混雑状況データ
+	 */
 	public int dbNewData (int areaNum ) {
 		return 77;
 	}
 
-	//areaNum=エリア番号
+	/**
+	 * 過去4週間の現在時刻の混雑状況データを取得するメソッドです。
+	 * @param areaNum エリア番号
+	 * @return 過去の混雑状況データ
+	 */
 	public int dbPastData(int areaNum) {
 		return 77;
 	}
 
-	//year=年、Quarter=クォータ、day=曜日、areaNum=エリア番号
+	/**
+	 * 混雑状況データのグラフ用データを取得するメソッドです。
+	 * 指定された条件のグラフ用データを配列として返却します。
+	 * @param year 年
+	 * @param Quarter クォータ
+	 * @param day 曜日
+	 * @param areaNum エリア番号
+	 * @return グラフ用配列データ
+	 */
 	public int[] dbGraphData(int year, int Quarter, String day, int areaNum) {
 		int[] graph_data ={10,20,30,40,50,60,70,80,90,70,60,50,40,30,20,10,20,30,40,50,60,70};
 		return graph_data;
@@ -83,18 +132,25 @@ public class MySqlQuery {
 		}
 	}
 
-	//idはログインID
+	/**
+	 * ログインIDからパスワードのハッシュ値を取得するメソッドです。
+	 * @param id ログインID
+	 * @return パスワードのハッシュ値
+	 */
 	public String getKey(String id) {
 		return "sdfsdfsdfsdfsdfsdfsdfsdfsdfsd";
 	}
 
-	//引数は指定せずに使用してください。
-	//一日の終わりに使用
+	/**
+	 * 一日の終わりに呼び出すメソッドです。
+	 * 一日のデータを編集し、データベースに格納します。
+	 */
 	public void insertPreData() {
 		return;
 	}
 
-	protected void finalize() {
+	
+	public void finalize() {
 		try {
 			con.close();
 			System.out.println("終了");
