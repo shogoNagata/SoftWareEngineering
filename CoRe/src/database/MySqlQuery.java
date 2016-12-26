@@ -29,7 +29,6 @@ public class MySqlQuery {
 					System.out.println("データベースのクローズに失敗しました。");
 				}
 			}
-			throw new SQLException();
 		}
 	}
 
@@ -153,13 +152,20 @@ public class MySqlQuery {
 		return;
 	}
 
-
-	public void finalize() {
-		try {
-			con.close();
-			System.out.println("終了");
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
+	public String mySqlTest() throws SQLException {
+		ResultSet result = myExecuteQuery("select * from test");
+		result.next();
+		String str = result.getString("column1") + ":" + result.getString("column2") + "\n";
+		result.last();
+		str += "2:" + result.getString("column2") + "\n";
+		str += "3:接続に成功しました。";
+		String next = result.getString("column1");
+		int nextNo = Integer.parseInt(next);
+		nextNo++;
+		myExecuteUpdate("INSERT INTO `CoRe`.`test` (`column1`, `column2`) VALUES ('"
+				+ nextNo + "', '"
+				+ nextNo + "回目のテストです。" + "');");
+		return str;
 	}
+	
 }

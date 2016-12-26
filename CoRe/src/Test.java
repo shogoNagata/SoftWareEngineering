@@ -3,8 +3,9 @@ import java.sql.SQLException;
 public class Test {
 	public static void main(String args[]) {
 		try {
-			database.MySqlQuery sql = new database.MySqlQuery();
-			System.out.println("接続に成功しました");
+			database.MySqlQuery msq = new database.MySqlQuery();
+			String result = msq.mySqlTest();
+			System.out.println(result);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

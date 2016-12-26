@@ -50,7 +50,7 @@ public class SqlSelectTest {
 			// Statement stm = con.createStatement();
 	        // String sql = "INSERT INTO user VALUES ('gggg', 'sdf', '434', '5');";
 	         //stm.executeUpdate(sql);
-			printAllTable(con, "OneDayTable");
+			printAllTable(con, "test");
 		} catch (SQLException e) {
 			System.out.println("sqlアクセスでエラー発生");
 			e.printStackTrace();
