@@ -12,7 +12,7 @@ import java.sql.Statement;
  */
 public class MySqlQuery {
 	//private String TABLE = "テーブルの名前";
-	private Connection con = null;
+	public Connection con = null;
 
 	/**
 	 * データベースサーバに接続を行います。
@@ -96,12 +96,31 @@ public class MySqlQuery {
 	 * @return 混雑状況データ
 	 */
 	public int dbNewData (int areaNum ) throws SQLException {
-		String num = Integer.toString(areaNum);
 		String sql = "select MAX(Time), AreaCode, Congestion "
-				+ "from onedaytable where AreaCode = " + num
-				+ "group by areaCode;";
+				+ "from OneDayTable "
+				+ "group by AreaCode;";
 		ResultSet result = myExecuteQuery(sql);
-		return 77;
+		while(result.next()) {
+			if(result.getInt("AreaCode") == areaNum) {
+				return result.getInt("Congestion");
+			}
+		}
+		return -1;
+	}
+	
+	public int[] dbNewData () throws SQLException{
+		String sql = "select MAX(Time), AreaCode, Congestion "
+				+ "from OneDayTable "
+				+ "group by AreaCode;";
+		ResultSet result = myExecuteQuery(sql);
+		result.last();
+		int numOfRow = result.getRow();
+		int[] data = new int[numOfRow + 1];
+		result.beforeFirst();
+		while(result.next()) {
+			data[result.getInt("AreaCode")] = result.getInt("Congestion");
+		}
+		return data;
 	}
 
 	/**
@@ -129,10 +148,10 @@ public class MySqlQuery {
 
 	public static void main (String[] args) throws Exception {
 		MySqlQuery msq = new MySqlQuery();
-		int[] data = msq.dbGraphData(1, 1, "金", 1);
-		for (int x = 0; x < data.length; x++) {
-			System.out.println(data[x]);
-		}
+		int[] data = msq.dbNewData();
+		System.out.println(msq.dbNewData(1));
+		for (int i = 0; i < data.length; i++)
+			System.out.println(data[i]);
 	}
 
 	/**
@@ -153,7 +172,7 @@ public class MySqlQuery {
 	}
 
 	public String mySqlTest() throws SQLException {
-		ResultSet result = myExecuteQuery("select * from test");
+		ResultSet result = myExecuteQuery("select * from test order by column1 asc");
 		result.next();
 		String str = result.getString("column1") + ":" + result.getString("column2") + "\n";
 		result.last();
