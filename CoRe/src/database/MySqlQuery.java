@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 /**
  * このクラスは端末でデータを扱うためのクラスです。
@@ -107,7 +108,7 @@ public class MySqlQuery {
 		}
 		return -1;
 	}
-	
+
 	public int[] dbNewData () throws SQLException{
 		String sql = "select MAX(Time), AreaCode, Congestion "
 				+ "from OneDayTable "
@@ -141,8 +142,58 @@ public class MySqlQuery {
 	 * @param areaNum エリア番号
 	 * @return グラフ用配列データ
 	 */
-	public int[] dbGraphData(int year, int Quarter, String day, int areaNum) {
-		int[] graph_data ={10,20,30,40,50,60,70,80,90,70,60,50,40,30,20,10,20,30,40,50,60,70};
+	public int[] dbGraphData(int year, int Quarter, String day, int areaNum)  throws SQLException  {
+		String sql = "SELECT * "
+				+ "from ThiMinTable "
+				+ "group by AreaCode;";
+
+		ResultSet result = myExecuteQuery(sql);
+
+		ArrayList<Integer> graphList = new ArrayList<Integer>();
+
+		int[] date = new int[6];
+		int y, m;
+
+		while (result.next()) {
+			int Date = result.getInt("Date");
+	        int AreaCode = result.getInt("AreaCode");
+	        String Youbi = result.getString("Youbi");
+	        int ConSit = result.getInt("ConSit");
+
+	        for(int i = 0; i < 6; i++){
+	        	date[i] = Date / (10 * (12 - i));
+	        }
+
+	        y = 1000*date[0] + 100*date[1] + 10*date[2] + date[3];
+	        m = 10*date[4] + date[5];
+	        if(Quarter == 1){
+	        	if((m == 4 || m == 5) &&
+	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
+		        	graphList.add(ConSit);
+		        }
+	        } else if(Quarter == 2){
+	        	if((m == 6 || m == 7 || m == 8) &&
+	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
+		        	graphList.add(ConSit);
+		        }
+	        } else if(Quarter == 3){
+	        	if((m == 10 || m == 11) &&
+	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
+		        	graphList.add(ConSit);
+		        }
+	        } else if(Quarter == 4){
+	        	if((m == 1 || m == 2 || m == 12) &&
+	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
+		        	graphList.add(ConSit);
+		        }
+	        }
+		}
+
+		result.close();
+		int[] graph_data = new int[graphList.size()];
+		for(int i = 0; i < graphList.size(); i++){
+			graph_data[i] = graphList.get(i);
+		}
 		return graph_data;
 	}
 
@@ -186,5 +237,5 @@ public class MySqlQuery {
 				+ nextNo + "回目のテストです。" + "');");
 		return str;
 	}
-	
+
 }
