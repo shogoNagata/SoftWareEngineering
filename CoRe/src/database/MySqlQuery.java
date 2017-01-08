@@ -143,67 +143,110 @@ public class MySqlQuery {
 	 * @return グラフ用配列データ
 	 */
 	public int[] dbGraphData(int year, int Quarter, String day, int areaNum)  throws SQLException  {
-		String sql = "SELECT * "
-				+ "from ThiMinTable "
-				+ "group by AreaCode;";
+		int[] error = {-1};
+		
+		if(Quarter == 1){
+			String sql = "SELECT * "
+					+ "from ThiMinTable "
+					+ "where "
+					+ "Date > " + year + "04000000 "
+					+ "and Date <= " + year + "06079999 "
+					+ "and Youbi = '" + day + "' "
+					+ "and AreaCode = " + areaNum + ";";
+			ResultSet result = myExecuteQuery(sql);
+			
+			ArrayList<Integer> graphList = new ArrayList<Integer>();
 
-		ResultSet result = myExecuteQuery(sql);
+			while (result.next()) {
+				graphList.add(result.getInt("ConSit"));
+			}
 
-		ArrayList<Integer> graphList = new ArrayList<Integer>();
+			result.close();
+			int[] graph_data = new int[graphList.size()];
+			for(int i = 0; i < graphList.size(); i++){
+				graph_data[i] = graphList.get(i);
+				System.out.println(graph_data[i]);
+			}
+			return graph_data;
+		}else if(Quarter == 2){
+			String sql = "SELECT * "
+					+ "from ThiMinTable "
+					+ "where "
+					+ "Date > " + year + "06080000 "
+					+ "and Date <= " + year + "08320000;"
+					+ "and Youbi = '" + day + "' "
+					+ "and AreaCode = " + areaNum + ";";
+			ResultSet result = myExecuteQuery(sql);
+			
+			ArrayList<Integer> graphList = new ArrayList<Integer>();
 
-		int[] date = new int[6];
-		int y, m;
+			while (result.next()) {
+				graphList.add(result.getInt("ConSit"));
+			}
 
-		while (result.next()) {
-			int Date = result.getInt("Date");
-	        int AreaCode = result.getInt("AreaCode");
-	        String Youbi = result.getString("Youbi");
-	        int ConSit = result.getInt("ConSit");
+			result.close();
+			int[] graph_data = new int[graphList.size()];
+			for(int i = 0; i < graphList.size(); i++){
+				graph_data[i] = graphList.get(i);
+				System.out.println(graph_data[i]);
+			}
+			return graph_data;
+		}else if(Quarter == 3){
+			String sql = "SELECT * "
+					+ "from ThiMinTable "
+					+ "where "
+					+ "Date > " + year + "10000000 "
+					+ "and Date <= " + year + "12079999;"
+					+ "and Youbi = '" + day + "' "
+					+ "and AreaCode = " + areaNum + ";";
+			ResultSet result = myExecuteQuery(sql);
+			
+			ArrayList<Integer> graphList = new ArrayList<Integer>();
 
-	        for(int i = 0; i < 6; i++){
-	        	date[i] = Date / (10 * (12 - i));
-	        }
+			while (result.next()) {
+				graphList.add(result.getInt("ConSit"));
+			}
 
-	        y = 1000*date[0] + 100*date[1] + 10*date[2] + date[3];
-	        m = 10*date[4] + date[5];
-	        if(Quarter == 1){
-	        	if((m == 4 || m == 5) &&
-	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
-		        	graphList.add(ConSit);
-		        }
-	        } else if(Quarter == 2){
-	        	if((m == 6 || m == 7 || m == 8) &&
-	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
-		        	graphList.add(ConSit);
-		        }
-	        } else if(Quarter == 3){
-	        	if((m == 10 || m == 11) &&
-	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
-		        	graphList.add(ConSit);
-		        }
-	        } else if(Quarter == 4){
-	        	if((m == 1 || m == 2 || m == 12) &&
-	        			(year == y && areaNum == AreaCode && day.equals(Youbi))){
-		        	graphList.add(ConSit);
-		        }
-	        }
+			result.close();
+			int[] graph_data = new int[graphList.size()];
+			for(int i = 0; i < graphList.size(); i++){
+				graph_data[i] = graphList.get(i);
+				System.out.println(graph_data[i]);
+			}
+			return graph_data;
+		}else if(Quarter == 4){
+			String sql = "SELECT * "
+					+ "from ThiMinTable "
+					+ "where "
+					+ "Date > " + year + "12080000 "
+					+ "and Date <= " + (year + 1) + "02300000;"
+					+ "and Youbi = '" + day + "' "
+					+ "and AreaCode = " + areaNum + ";";
+			ResultSet result = myExecuteQuery(sql);
+			
+			ArrayList<Integer> graphList = new ArrayList<Integer>();
+
+			while (result.next()) {
+				graphList.add(result.getInt("ConSit"));
+			}
+
+			result.close();
+			int[] graph_data = new int[graphList.size()];
+			for(int i = 0; i < graphList.size(); i++){
+				graph_data[i] = graphList.get(i);
+				System.out.println(graph_data[i]);
+			}
+			return graph_data;
+		}else{
+			return error;
 		}
-
-		result.close();
-		int[] graph_data = new int[graphList.size()];
-		for(int i = 0; i < graphList.size(); i++){
-			graph_data[i] = graphList.get(i);
-		}
-		return graph_data;
 	}
 
 	public static void main (String[] args) throws Exception {
 		MySqlQuery msq = new MySqlQuery();
-		int[] data = msq.dbNewData();
-		System.out.println(msq.dbNewData(1));
-		for (int i = 0; i < data.length; i++)
-			System.out.println(data[i]);
+		msq.dbGraphData(2011, 1, "火", 7);
 	}
+
 
 	/**
 	 * ログインIDからパスワードのハッシュ値を取得するメソッドです。
